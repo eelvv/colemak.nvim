@@ -116,20 +116,9 @@ function M.unapply()
     end
 end
 
-function M.setup(user_config)
-    M.config = vim.tbl_deep_extend("force", default_config, user_config or {})
-    for _, mapping in pairs(M.config.key_mappings) do
-        vim.api.nvim_set_keymap(
-            mapping.mode or "n",
-            mapping.from,
-            mapping.to,
-            { noremap = true }
-        )
-    end
+M.setup = function(_)
 	vim.api.nvim_set_keymap('n', 'Q', ':q<CR>')
 	vim.api.nvim_set_keymap('n', 'S', ':w<CR>')
-	
 end
-
 
 return M
