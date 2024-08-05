@@ -126,6 +126,9 @@ function M.setup(user_config)
             { noremap = true }
         )
     end
+	vim.api.nvim_set_keymap('n', 'Q', ':q<CR>')
+	vim.api.nvim_set_keymap('n', 'S', ':w<CR>')
+	
 end
 
 
