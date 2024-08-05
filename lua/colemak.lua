@@ -1,3 +1,4 @@
+local colemak = {}
 vim.g.mapleader = " "
 
 local mode_nv = { "n", "v" }
