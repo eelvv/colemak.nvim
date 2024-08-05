@@ -96,6 +96,9 @@ local nmappings = {
   { from = ",q",    to = "q" },
 }
 
+local default_config = { key_mappings = nmappings }
+colemak.config = default_config
+
 function colemak.apply()
     for _, mapping in pairs(nmappings) do
         vim.api.nvim_set_keymap(
@@ -114,18 +117,14 @@ function colemak.unapply()
 end
 
 function colemak.setup(user_config)
-    colemak.apply()
-
-    vim.api.nvim_create_user_command(
-        "ColemakEnable",
-        colemak.apply,
-        { desc = "Applies Colemak mappings" }
-    )
-    vim.api.nvim_create_user_command(
-        "ColemakDisable",
-        colemak.unapply,
-        { desc = "Removes Colemak mappings" }
-    )
+    for _, mapping in pairs(M.config.key_mappings) do
+        vim.api.nvim_set_keymap(
+            mapping.mode or "n",
+            mapping.from,
+            mapping.to,
+            { noremap = true }
+        )
+    end
 end
 
 
