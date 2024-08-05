@@ -1,4 +1,4 @@
-local colemak = {}
+local M = {}
 vim.g.mapleader = " "
 
 local mode_nv = { "n", "v" }
@@ -97,9 +97,9 @@ local nmappings = {
 }
 
 local default_config = { key_mappings = nmappings }
-colemak.config = default_config
+M.config = default_config
 
-function colemak.apply()
+function M.apply()
     for _, mapping in pairs(nmappings) do
         vim.api.nvim_set_keymap(
             mapping.mode or "n",
@@ -110,13 +110,14 @@ function colemak.apply()
     end
 end
 
-function colemak.unapply()
+function M.unapply()
     for _, mapping in pairs(nmappings) do
         vim.keymap.del(mapping.mode or "n", mapping.from)
     end
 end
 
-function colemak.setup(user_config)
+function M.setup(user_config)
+    M.config = vim.tbl_deep_extend("force", default_config, user_config or {})
     for _, mapping in pairs(M.config.key_mappings) do
         vim.api.nvim_set_keymap(
             mapping.mode or "n",
@@ -128,4 +129,4 @@ function colemak.setup(user_config)
 end
 
 
-return colemak
+return M
