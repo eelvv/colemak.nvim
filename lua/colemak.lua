@@ -95,7 +95,24 @@ local nmappings = {
   { from = ",q",    to = "q" },
 }
 
-function colemak.setup(_)
+function colemak.apply()
+    for _, mapping in pairs(nmappings) do
+        vim.api.nvim_set_keymap(
+            mapping.mode or "n",
+            mapping.from,
+            mapping.to,
+            { noremap = true }
+        )
+    end
+end
+
+function colemak.unapply()
+    for _, mapping in pairs(nmappings) do
+        vim.keymap.del(mapping.mode or "n", mapping.from)
+    end
+end
+
+function colemak.setup(user_config)
     colemak.apply()
 
     vim.api.nvim_create_user_command(
@@ -110,21 +127,5 @@ function colemak.setup(_)
     )
 end
 
-function colemak.apply()
-    for _, mapping in pairs(nmappings) do
-        vim.keymap.set(
-            mapping.mode or "n",
-            mapping.from,
-            mapping.to,
-            { noremap = true }
-        )
-    end
-end
-
-function colemak.unapply()
-    for _, mapping in pairs(nmappings) do
-        vim.keymap.del(mapping.mode or "n", mapping.from)
-    end
-end
 
 return colemak
